@@ -1,0 +1,132 @@
+/* Общие стили */
+
+.homepage {
+  background-color: #0a0a0a;
+  color: #fff;
+  padding: 4rem 2rem;
+  font-family: "Segoe UI", sans-serif;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  color: #ccc;
+  margin-bottom: 0.5rem;
+}
+
+.highlight {
+  color: #f11a0e;
+  font-weight: bold;
+}
+
+.cta-button {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.cta-button:hover {
+  background-color: #45a049;
+}
+
+/* Features block */
+
+.features {
+  margin-top: 4rem;
+}
+
+.features-marquee {
+  position: relative;
+  overflow: hidden;
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+.features-track {
+  display: flex;
+  gap: 2rem;
+  animation: marquee 20s linear infinite;
+}
+
+.feature-item {
+  background-color: #1e1e1e;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  color: #ddd;
+  font-weight: bold;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: 1.1rem;
+}
+
+/* Плавная бесконечная прокрутка */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Блюр по краям */
+.features-fade {
+  position: absolute;
+  top: 0;
+  width: 100px;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.features-fade.left {
+  left: 0;
+  background: linear-gradient(to right, #0a0a0a 0%, transparent 100%);
+}
+
+.features-fade.right {
+  right: 0;
+  background: linear-gradient(to left, #0a0a0a 0%, transparent 100%);
+}
+
+/* Команда */
+
+.team {
+  margin-top: 4rem;
+}
+
+.team-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.team-list li {
+  background-color: #1f1f1f;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  color: #ccc;
+  font-weight: bold;
+}
+
+.mentor {
+  margin-top: 1rem;
+  color: #aaa;
+  font-style: italic;
+}

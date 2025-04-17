@@ -1,0 +1,35 @@
+.navbar {
+    position: fixed;              /* Фиксирует элемент */
+    top: 0;                       /* Приклеить к верхней части */
+    left: 0;
+    right: 0;
+    z-index: 1000;                /* Поверх остальных элементов */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #0a0a0a;
+    border-bottom: 1px solid #1f1f1f;
+  }
+  
+  
+  .logo {
+    color: white;
+    font-family: monospace;
+    font-size: 1rem;
+    text-decoration: none;
+  }
+  
+  .nav-links a {
+    color: white;
+    font-family: monospace;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  
+  .nav-links a:hover {
+    background-color: #333;
+  }
+  

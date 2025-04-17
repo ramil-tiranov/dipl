@@ -1,0 +1,101 @@
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
+  color: white;
+}
+
+.intro {
+  max-width: 800px;
+  margin-bottom: 60px;
+  text-align: center;
+}
+
+.intro h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.intro p {
+  font-size: 1.2rem;
+  color: #c0c0c0;
+}
+
+.code-demo-wrapper {
+  background-color: #141414;
+  border-radius: 16px;
+  padding: 40px 20px;
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.7);
+}
+
+.code-demo-title {
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+}
+
+.code-demo-block {
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 12px;
+  position: relative;
+  text-align: left;
+}
+
+.code-demo-code {
+  font-family: monospace;
+  font-size: 1.1rem;
+  color: #e0e0e0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  min-height: 60px;
+}
+
+.code-demo-dialog {
+  background-color: #232323;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  animation: fadeIn 0.4s ease;
+}
+
+.code-demo-dialog p {
+  margin: 0 0 10px;
+  font-size: 1rem;
+  color: #ffd700;
+  font-weight: 500;
+}
+
+.code-demo-suggestion {
+  background-color: #333;
+  padding: 10px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 1rem;
+  color: #c0ffc0;
+  margin-top: 10px;
+}
+
+.code-demo-button {
+  margin-top: 16px;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.code-demo-button:hover {
+  background-color: #45a049;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
