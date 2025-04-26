@@ -8,13 +8,51 @@ export default function Register() {
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Registering:", formData);
+    setLoading(true);
+    setError(null);
+    setSuccess(false);
+
+    try {
+      const response = await fetch("http://localhost:8000/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          username: formData.name,   
+          password: formData.password,
+          is_active: true,           
+          is_admin: false,           
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.detail || "Registration failed");
+      }
+
+      setSuccess(true);
+      console.log("Registration successful!");
+      // можно редиректить на страницу логина, например
+      // window.location.href = "/login";
+
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -60,10 +98,13 @@ export default function Register() {
             onChange={handleChange}
             required
           />
-          <button type="submit" className="submit-button">
-            Create Account
+          <button type="submit" className="submit-button" disabled={loading}>
+            {loading ? "Creating..." : "Create Account"}
           </button>
         </form>
+
+        {error && <p className="error-message">{error}</p>}
+        {success && <p className="success-message">Account created successfully!</p>}
 
         <p className="register-footer">
           Already have an account? <a href="/login">Sign In</a>

@@ -1,0 +1,86 @@
+.upload-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #0f0f0f; /* тёмный фон */
+  color: #ffffff; /* белый текст */
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+p {
+  font-size: 1.1rem;
+  color: #cccccc;
+}
+
+.upload-controls {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.upload-button {
+  background-color: #ef4444; /* ярко-красная кнопка */
+  color: #ffffff;
+  padding: 0.8rem 1.6rem;
+  border: none;
+  border-radius: 0.75rem; /* скругленные углы */
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.upload-button input[type="file"] {
+  display: none;
+}
+
+.upload-button:hover {
+  background-color: #dc2626;
+}
+
+.mode-input {
+  background-color: #1f1f1f;
+  color: #ffffff;
+  border: 1px solid #333333;
+  padding: 0.8rem 1.2rem;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  width: 250px;
+}
+
+.file-list {
+  margin-top: 2rem;
+  background-color: #1a1a1a;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+  text-align: center;
+}
+
+.file-list pre {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+.loading, .upload-status {
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  color: #cccccc;
+  text-align: center;
+}
+
+.download-link {
+  margin-top: 2rem;
+}

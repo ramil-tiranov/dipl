@@ -37,17 +37,6 @@ const Home = () => {
           <div className="features-fade right"></div>
         </div>
       </section>
-
-      <section className="team">
-        <h2>👥 Наша команда</h2>
-        <p>Проект разработан студентами:</p>
-        <ul className="team-list">
-          <li>Абу</li>
-          <li>Ильяс</li>
-          <li>Рамиль</li>
-        </ul>
-        <p className="mentor">Научный руководитель — Маргарита Валерьевна</p>
-      </section>
     </div>
   );
 };

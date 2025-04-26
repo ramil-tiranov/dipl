@@ -1,88 +1,137 @@
 import React, { useState } from 'react';
-import '../styles/Home.css';
+import '../styles/Analys.css';
 
-const Home: React.FC = () => {
-  const [message, setMessage] = useState('');
-  const [file, setFile] = useState<File | null>(null);
-  const [code, setCode] = useState('');
-  const [analyzedCode, setAnalyzedCode] = useState<string[]>([]);
+const UploadPage: React.FC = () => {
+  const [files, setFiles] = useState<FileList | null>(null);
+  const [mode, setMode] = useState<string>('');
+  const [uploadStatus, setUploadStatus] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [reportUuid, setReportUuid] = useState<string>('');
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
+    if (e.target.files) {
+      setFiles(e.target.files);
     }
   };
 
-  const handleSend = () => {
-    let codeText = message;
-
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const fileContent = e.target?.result as string;
-        analyzeCode(fileContent);
-      };
-      reader.readAsText(file);
-    } else {
-      analyzeCode(codeText);
+  const handleUpload = async () => {
+    if (!files || files.length === 0) {
+      setUploadStatus('Выберите хотя бы один файл для загрузки.');
+      return;
     }
 
-    setMessage('');
-    setFile(null);
+    const formData = new FormData();
+    formData.append('file', files[0]);
+
+    try {
+      setIsLoading(true);
+      setUploadStatus('Идет загрузка и анализ файла...');
+
+      const response = await fetch(`http://localhost:8000/vulnerability-detector/create-report${mode ? `?mode=${mode}` : ''}`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setReportUuid(data.uuid);
+
+        setUploadStatus('Файл успешно загружен и отправлен на анализ! Вы можете скачать отчет ниже.');
+      } else {
+        setUploadStatus(`Ошибка загрузки: ${response.status}`);
+        setReportUuid('');
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      setUploadStatus('Ошибка загрузки.');
+      setReportUuid('');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const analyzeCode = (codeStr: string) => {
-    const lines = codeStr.split('\n');
-    setCode(codeStr);
-    setAnalyzedCode(lines);
+  const handleDownload = async () => {
+    if (!reportUuid) return;
+
+    try {
+      const response = await fetch(`http://localhost:8000/vulnerability-detector/${reportUuid}/download`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error('Ошибка скачивания файла');
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'report.zip'; // <-- скачиваем как ZIP
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Download error:', error);
+      setUploadStatus('Ошибка при скачивании отчета.');
+    }
   };
 
   return (
-    <div className="home">
-      <div className="intro">
-        <h1>Автоматический анализ кода на уязвимости</h1>
-        <p>
-          Наш сервис использует обученную модель для анализа вашего кода и выявления потенциальных уязвимостей.
-          Просто отправьте нам свой код, и мы покажем, какие фрагменты требуют доработки, а также дадим рекомендации по их улучшению.
-        </p>
+    <div className="upload-container">
+      <h1>Загрузка файлов или папки</h1>
+      <p>Выберите файл для анализа.</p>
 
-        {/* Сообщение + файл */}
-        <div className="message-box">
-          <input
-            type="text"
-            placeholder="Введите код или сообщение..."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
+      <div className="upload-controls">
+        <label className="upload-button">
+          📄 Выбрать файл
+          <input type="file" onChange={handleFileChange} />
+        </label>
 
-          <label className="file-label">
-            📎
-            <input type="file" onChange={handleFileChange} />
-          </label>
+        <input
+          type="text"
+          placeholder="Режим анализа (например, sql)"
+          value={mode}
+          onChange={(e) => setMode(e.target.value)}
+          className="mode-input"
+        />
 
-          <button onClick={handleSend}>Отправить</button>
-        </div>
-
-        {file && <p className="file-name">📁 {file.name}</p>}
-
-        {analyzedCode.length > 0 && (
-          <div className="analyzed-output">
-            <h2>Результат анализа</h2>
-            <pre className="code-block">
-              {analyzedCode.map((line, index) => (
-                <div
-                  key={index}
-                  className={`code-line ${index === 4 ? 'vulnerable' : ''}`}
-                >
-                  <span className="line-number">{index + 1}</span> {line}
-                </div>
-              ))}
-            </pre>
-          </div>
-        )}
+        <button className="upload-button" onClick={handleUpload}>
+          🚀 Отправить на анализ
+        </button>
       </div>
+
+      {files && (
+        <div className="file-list">
+          <h2>Выбранный файл:</h2>
+          <pre>{files[0].name}</pre>
+        </div>
+      )}
+
+      {isLoading && (
+        <div className="loading">
+          <p>⏳ Загрузка файла и анализ...</p>
+        </div>
+      )}
+
+      {uploadStatus && (
+        <div className="upload-status">
+          <p>{uploadStatus}</p>
+        </div>
+      )}
+
+      {reportUuid && (
+        <div className="download-link">
+          <button className="upload-button" onClick={handleDownload}>
+            📥 Скачать отчет (ZIP)
+          </button>
+        </div>
+      )}
     </div>
   );
 };
 
-export default Home;
+export default UploadPage;

@@ -1,85 +1,91 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Home.css';
 
+const features = [
+  "Быстрая загрузка файлов",
+  "Анализ с помощью обученной модели",
+  "Красивый и понятный вывод результатов",
+  "Выделение потенциально опасных мест"
+];
+
 const CodeDemo: React.FC = () => {
-  const vulnerableCode = 'const userInput = eval(input);';
-  const correctedCode = 'const userInput = JSON.parse(input);';
-
-  const [displayedCode, setDisplayedCode] = useState('');
-  const [dialogMessage, setDialogMessage] = useState('');
-  const [step, setStep] = useState<'typingVulnerable' | 'showVulnerability' | 'typingCorrected' | 'success'>('typingVulnerable');
-
+  const [stage, setStage] = useState<'uploading' | 'processing' | 'finished'>('uploading');
+  
   useEffect(() => {
-    let index = 0;
-    let interval: NodeJS.Timeout;
+    const timer = setTimeout(() => {
+      if (stage === 'uploading') {
+        setStage('processing');
+      } else if (stage === 'processing') {
+        setStage('finished');
+      }
+    }, 2000);
 
-    const typeText = (text: string, callback: () => void) => {
-      interval = setInterval(() => {
-        setDisplayedCode((prev) => prev + text[index]);
-        index++;
-        if (index >= text.length) {
-          clearInterval(interval);
-          callback();
-        }
-      }, index > text.length - 8 ? 160 : 60);
-    };
-
-    if (step === 'typingVulnerable') {
-      setDisplayedCode('');
-      typeText(vulnerableCode, () => {
-        setDialogMessage('⚠️ CVA: Этот код уязвим! Я рекомендую заменить его на:');
-        setStep('showVulnerability');
-      });
-    }
-
-    if (step === 'typingCorrected') {
-      setDisplayedCode('');
-      typeText(correctedCode, () => {
-        setDialogMessage('✅ CVA: Отлично, теперь всё безопасно!');
-        setStep('success');
-      });
-    }
-
-    return () => clearInterval(interval);
-  }, [step]);
-
-  const handleFixCode = () => {
-    setDialogMessage('');
-    setStep('typingCorrected');
-  };
+    return () => clearTimeout(timer);
+  }, [stage]);
 
   return (
     <div className="page-wrapper">
-
-      {/* Инфо о сайте */}
-      <div className="intro">
-        <h1>Автоматический анализ кода на уязвимости</h1>
+      <div className="homepage">
+      <section className="hero">
+        <h1>Code Vulnerability Analysis</h1>
         <p>
-          Наш сервис использует обученную модель для анализа вашего кода и выявления потенциальных уязвимостей.
-          Просто отправьте нам свой код, и мы покажем, какие фрагменты требуют доработки, а также дадим рекомендации по их улучшению.
+          Добро пожаловать в наш сервис! Здесь вы можете загрузить ваш код или
+          проект, и обученная модель проанализирует его на наличие
+          <span className="highlight"> уязвимостей</span> или
+          <span className="highlight"> ошибок</span>.
         </p>
+        <p>Мы делаем вашу разработку — безопаснее и качественнее.</p>
+        <button className="cta-button">Попробовать сейчас</button>
+      </section>
+
+      <section className="features">
+        <h2>Что вы получите?</h2>
+        <div className="features-marquee">
+          <div className="features-track">
+            {[...features].map((item, index) => (
+              <div className="feature-item" key={index}>
+                {item}
+              </div>
+            ))}
+          </div>
+          <div className="features-fade left"></div>
+          <div className="features-fade right"></div>
+        </div>
+      </section>
+    </div>
+      <div className="intro">
+        <h1>Анализ кода через изображения</h1>
+        <p>Отправьте своё изображение — мы его обработаем и вернём исправленную версию.</p>
       </div>
 
-      {/* Интерактивный пример */}
+      {/* Анимация процесса */}
       <div className="code-demo-wrapper">
-        <h2 className="code-demo-title">Пример анализа кода</h2>
-        <div className="code-demo-block">
-          <pre className="code-demo-code">{displayedCode}</pre>
+       
+        <div className="animation-area">
 
-          {dialogMessage && (
-            <div className="code-demo-dialog">
-              <p>{dialogMessage}</p>
-              {step === 'showVulnerability' && (
-                <>
-                  <pre className="code-demo-suggestion">{'const userInput = JSON.parse(input);'}</pre>
-                  <button className="code-demo-button" onClick={handleFixCode}>Заменить код</button>
-                </>
-              )}
+          {stage === 'uploading' && (
+            <div className="upload-animation">
+              📂
+              <p>Отправка изображения...</p>
             </div>
           )}
+
+          {stage === 'processing' && (
+            <div className="processing-animation">
+              <div className="spinner"></div>
+              <p>Анализ изображения...</p>
+            </div>
+          )}
+
+          {stage === 'finished' && (
+            <div className="result-animation">
+              🖼️
+              <p>Изображение обработано!</p>
+            </div>
+          )}
+
         </div>
       </div>
-      
     </div>
   );
 };
