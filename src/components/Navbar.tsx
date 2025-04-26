@@ -3,7 +3,6 @@ import './Navbar.css';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null); 
   const navigate = useNavigate();
 
@@ -48,42 +47,32 @@ const Navbar: React.FC = () => {
     }
   };
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
-
   return (
     <nav className="navbar">
       <Link to="/" className="logo">Code Vulnerability Analysis</Link>
 
       <div className="nav-links">
-        <Link to="/rules">Rules</Link>
-        <Link to="/trending">Trending</Link>
+  
         <Link to="/analysis">Jobs</Link>
-        <Link to="/mcps">MCPs</Link>
-        <Link to="/generate">Generate</Link>
+        
+        {/* <Link to="/generate">Generate</Link> */}
 
-        {/* Показываем загрузку, пока не проверено */}
-        {isLoggedIn === null ? (
-          <div>Loading...</div>
-        ) : !isLoggedIn ? (
-          <>
-            <Link to="/signin" className="auth-link">Sign In</Link>
-            <Link to="/signup" className="auth-link">Sign Up</Link>
-          </>
-        ) : (
-          <div className="profile-dropdown">
-            <button onClick={toggleDropdown} className="profile-button">
-              My Profile ⌄
-            </button>
-            {dropdownOpen && (
-              <div className="dropdown-menu">
-                <Link to="/profile" onClick={() => setDropdownOpen(false)}>View Profile</Link>
-                <button onClick={handleLogout}>Log Out</button>
-              </div>
-            )}
-          </div>
-        )}
+        {/* Пока авторизация проверяется */}
+              {isLoggedIn === null ? (
+        <div>Loading...</div>
+      ) : !isLoggedIn ? (
+        <>
+          <Link to="/signup" className="nav-link">Sign Up</Link>
+          <Link to="/signin" className="nav-link">Sign In</Link>
+          
+        </>
+      ) : (
+        <>
+          <Link to="/profile" className="nav-link">Profile</Link>
+          <button onClick={handleLogout} className="nav-link">Log Out</button>
+        </>
+      )}
+
       </div>
     </nav>
   );

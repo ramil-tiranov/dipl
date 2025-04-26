@@ -1,141 +1,291 @@
+/* ===== Base Styles ===== */
 .page-wrapper {
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+  background-color: #0a0a0a;
+  min-height: 100vh;
+  padding: 0;
+}
+
+.hero-section,
+.features-section {
+  padding: 80px 20px 40px 20px; /* top right bottom left */
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 60px 20px;
-  color: white;
 }
 
-.intro {
+
+.process-section {
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.features-section {
+  background-color: #121212;
+}
+
+.process-section {
+  background-color: #0a0a0a;
+  padding-bottom: 120px;
+}
+
+/* ===== Hero Content ===== */
+.hero-content {
   max-width: 800px;
-  margin-bottom: 60px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.intro h1 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  background: white;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-family: monospace;
 }
 
-.intro p {
+.hero-description {
+  margin-bottom: 2rem;
+}
+
+.hero-description p {
+  font-size: 1.2rem;
+  color: #ccc;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.highlight {
+  color: #ff4a57;
+  font-weight: bold;
+}
+
+/* ===== CTA Button ===== */
+.cta-button {
+  padding: 1rem 2.5rem;
+  background: #2b2b2b;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+ 
+}
+
+.cta-button:hover {
+  
+  background-color: #404040;
+}
+
+/* ===== Section Headers ===== */
+.section-header {
+  text-align: center;
+  margin-bottom: 40px;
+  max-width: 800px;
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.section-header p {
   font-size: 1.2rem;
   color: #c0c0c0;
 }
 
-.code-demo-wrapper {
-  background-color: #141414;
-  border-radius: 16px;
-  padding: 40px 20px;
-  max-width: 800px;
+/* ===== Features Grid ===== */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
   width: 100%;
-  text-align: center;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+  max-width: 1000px;
 }
 
-.code-demo-title {
-  font-size: 1.8rem;
-  margin-bottom: 30px;
-}
-
-/* Анимация процессов */
-.animation-area {
+.feature-card {
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  padding: 30px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 30px;
-  font-size: 48px;
-  gap: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.upload-animation {
-  animation: moveUp 2s ease-in-out forwards;
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
-.processing-animation .spinner {
+.feature-icon {
   width: 50px;
   height: 50px;
-  border: 6px solid #ccc;
-  border-top: 6px solid #4CAF50;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-.result-animation {
-  animation: fadeIn 1s ease forwards;
-}
-
-
-/* Ключевые кадры анимаций */
-@keyframes moveUp {
-  0% {
-    transform: translateY(0px);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-100px);
-    opacity: 0;
-  }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-
-
-
-
-/* Общие стили */
-
-.homepage {
-  background-color: #0a0a0a;
-  color: #fff;
-  padding: 4rem 2rem;
-  font-family: "Segoe UI", sans-serif;
-  text-align: center;
-}
-
-.hero h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-.hero p {
-  font-size: 1.1rem;
-  color: #ccc;
-  margin-bottom: 0.5rem;
-}
-
-.highlight {
-  color: #f11a0e;
-  font-weight: bold;
-}
-
-.cta-button {
-  margin-top: 1.5rem;
-  padding: 0.75rem 1.5rem;
-  background-color: #4caf50;
+  background-color: #00c853;
   color: white;
-  border: none;
-  border-radius: 12px;
-  font-size: 1rem;
-  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
-.cta-button:hover {
-  background-color: #45a049;
+.feature-text {
+  font-size: 1.1rem;
+  text-align: center;
+  color: #ddd;
 }
+
+/* ===== Process Animation ===== */
+.process-line {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.process-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.step-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #1e1e1e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+  border: 2px solid #333;
+}
+
+.step-text {
+  color: #aaa;
+  font-size: 0.9rem;
+  text-align: center;
+  max-width: 120px;
+  transition: all 0.3s ease;
+}
+
+.step-connector {
+  position: absolute;
+  top: 30px;
+  left: 71%;
+  width: 100%;
+  height: 3px;
+  background-color: #333;
+  z-index: 0;
+}
+
+/* Active Step */
+.process-step.active .step-icon {
+  background-color: #00c853;
+  color: white;
+  transform: scale(1.1);
+  border-color: #00c853;
+  box-shadow: 0 0 15px rgba(0, 200, 83, 0.5);
+}
+
+.process-step.active .step-text {
+  color: #fff;
+  font-weight: 500;
+}
+
+/* Completed Steps */
+.process-step.completed .step-icon {
+  background-color: #1e1e1e;
+  color: #00c853;
+  border-color: #00c853;
+}
+
+.process-step.completed .step-text {
+  color: #00c853;
+}
+
+.step-connector.completed {
+  background: linear-gradient(90deg, #00c853, #4caf50);
+}
+
+/* Animation */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.process-step.active .step-icon {
+  animation: pulse 1.5s infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
+  
+  .section-header h2 {
+    font-size: 2rem;
+  }
+  
+  .process-line {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+  
+  .step-connector {
+    display: none;
+  }
+  
+  .process-step {
+    flex: none;
+    width: 100%;
+  }
+  
+  .step-text {
+    max-width: 100%;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+
+
+
+
+
 
 /* Features block */
 
 .features {
-  margin-top: 4rem;
+  margin-top: 2rem;
 }
 
 .features-marquee {
@@ -194,32 +344,12 @@
   background: linear-gradient(to left, #0a0a0a 0%, transparent 100%);
 }
 
-/* Команда */
-
-.team {
-  margin-top: 4rem;
+.features h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: #ffffff;
+  font-family: 'Courier New', Courier, monospace;
 }
 
-.team-list {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 1rem;
-  flex-wrap: wrap;
-}
 
-.team-list li {
-  background-color: #1f1f1f;
-  padding: 0.75rem 1.5rem;
-  border-radius: 10px;
-  color: #ccc;
-  font-weight: bold;
-}
 
-.mentor {
-  margin-top: 1rem;
-  color: #aaa;
-  font-style: italic;
-}

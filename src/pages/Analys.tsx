@@ -36,8 +36,7 @@ const UploadPage: React.FC = () => {
       if (response.ok) {
         const data = await response.json();
         setReportUuid(data.uuid);
-
-        setUploadStatus('Файл успешно загружен и отправлен на анализ! Вы можете скачать отчет ниже.');
+        setUploadStatus('Файл успешно загружен и отправлен на анализ!');
       } else {
         setUploadStatus(`Ошибка загрузки: ${response.status}`);
         setReportUuid('');
@@ -69,7 +68,7 @@ const UploadPage: React.FC = () => {
 
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'report.zip'; // <-- скачиваем как ZIP
+      a.download = 'report.zip';
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -81,55 +80,90 @@ const UploadPage: React.FC = () => {
   };
 
   return (
-    <div className="upload-container">
-      <h1>Загрузка файлов или папки</h1>
-      <p>Выберите файл для анализа.</p>
-
-      <div className="upload-controls">
-        <label className="upload-button">
-          📄 Выбрать файл
-          <input type="file" onChange={handleFileChange} />
-        </label>
-
-        <input
-          type="text"
-          placeholder="Режим анализа (например, sql)"
-          value={mode}
-          onChange={(e) => setMode(e.target.value)}
-          className="mode-input"
-        />
-
-        <button className="upload-button" onClick={handleUpload}>
-          🚀 Отправить на анализ
-        </button>
-      </div>
-
-      {files && (
-        <div className="file-list">
-          <h2>Выбранный файл:</h2>
-          <pre>{files[0].name}</pre>
+    <div className="upload-page">
+      <div className="glass-card main-card">
+        <div className="card-header">
+          <h1 className="gradient-text">Анализ уязвимостей кода</h1>
+          <p className="subtitle">Загрузите файл для автоматического поиска уязвимостей</p>
         </div>
-      )}
 
-      {isLoading && (
-        <div className="loading">
-          <p>⏳ Загрузка файла и анализ...</p>
-        </div>
-      )}
+        <div className="upload-section glass-card">
+          <div className="file-selector">
+            <label className="file-input-label">
+              <input type="file" onChange={handleFileChange} />
+              <div className="file-input-button">
+                <span className="icon">📁</span>
+                <span>Выбрать файл</span>
+              </div>
+            </label>
+            {files && (
+              <div className="file-preview">
+                <div className="file-icon">📄</div>
+                <div className="file-info">
+                  <div className="file-name">{files[0].name}</div>
+                  <div className="file-size">{(files[0].size / 1024).toFixed(2)} KB</div>
+                </div>
+              </div>
+            )}
+          </div>
 
-      {uploadStatus && (
-        <div className="upload-status">
-          <p>{uploadStatus}</p>
-        </div>
-      )}
+          <div className="mode-selector">
+            <input
+              type="text"
+              placeholder="Режим анализа (например: SQL, XSS, etc)"
+              value={mode}
+              onChange={(e) => setMode(e.target.value)}
+              className="mode-input"
+            />
+          </div>
 
-      {reportUuid && (
-        <div className="download-link">
-          <button className="upload-button" onClick={handleDownload}>
-            📥 Скачать отчет (ZIP)
+          <button 
+            className="upload-button" 
+            onClick={handleUpload}
+            disabled={isLoading || !files}
+          >
+            {isLoading ? (
+              <span className="loading-spinner"></span>
+            ) : (
+              <>
+                <span className="icon">🚀</span>
+                <span>Начать анализ</span>
+              </>
+            )}
           </button>
         </div>
-      )}
+
+        {uploadStatus && (
+          <div className={`status-card ${reportUuid ? 'success' : uploadStatus.includes('Ошибка') ? 'error' : 'info'}`}>
+            <div className="status-icon">
+              {reportUuid ? '✅' : uploadStatus.includes('Ошибка') ? '❌' : 'ℹ️'}
+            </div>
+            <div className="status-content">
+              <h3>{reportUuid ? 'Анализ завершен' : uploadStatus.includes('Ошибка') ? 'Ошибка' : 'Статус'}</h3>
+              <p>{uploadStatus}</p>
+            </div>
+          </div>
+        )}
+
+        {reportUuid && (
+          <div className="result-card glass-card">
+            <div className="result-header">
+              <h3>📊 Результаты анализа</h3>
+              <div className="badge">Готово</div>
+            </div>
+            <div className="result-content">
+              <p>Файл успешно проанализирован на наличие уязвимостей.</p>
+              <button 
+                className="download-button"
+                onClick={handleDownload}
+              >
+                <span className="icon">⏬</span>
+                <span>Скачать отчет (ZIP)</span>
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

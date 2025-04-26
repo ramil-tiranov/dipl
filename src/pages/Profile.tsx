@@ -8,6 +8,8 @@ interface Report {
   description: string;
 }
 
+const ITEMS_PER_PAGE = 10;
+
 const Profile: React.FC = () => {
   const [profile, setProfile] = useState({
     email: '',
@@ -17,6 +19,7 @@ const Profile: React.FC = () => {
   });
   const [reports, setReports] = useState<Report[]>([]);
   const [loadingReports, setLoadingReports] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const navigate = useNavigate();
 
@@ -92,6 +95,12 @@ const Profile: React.FC = () => {
     }
   };
 
+  const totalPages = Math.ceil(reports.length / ITEMS_PER_PAGE);
+  const paginatedReports = reports.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
   return (
     <div className="profile-container">
       <h1 className="profile-header">Profile</h1>
@@ -111,22 +120,41 @@ const Profile: React.FC = () => {
         ) : reports.length === 0 ? (
           <p className="no-reports">No reports yet. Create your first report!</p>
         ) : (
-          <div className="reports-grid">
-            {reports.map((report) => (
-              <div key={report.uuid} className="report-card">
-                <div className="report-info">
-                  <p><strong>Description:</strong> {report.description || 'No description'}</p>
-                  <p><strong>Created:</strong> {formatDate(report.created_at)}</p>
+          <>
+            <div className="reports-grid">
+              {paginatedReports.map((report) => (
+                <div key={report.uuid} className="report-card">
+                  <div className="report-info">
+                    <p><strong>Description:</strong> {report.description || 'No description'}</p>
+                    <p><strong>Created:</strong> {formatDate(report.created_at)}</p>
+                  </div>
+                  <button
+                    className="download-button"
+                    onClick={() => downloadReport(report.uuid)}
+                  >
+                    Download ZIP
+                  </button>
                 </div>
-                <button
-                  className="download-button"
-                  onClick={() => downloadReport(report.uuid)}
-                >
-                  ⬇️ Download ZIP
-                </button>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+
+            {/* Pagination controls */}
+            <div className="pagination-controls">
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((prev) => prev - 1)}
+              >
+                Prev
+              </button>
+              <span>Page {currentPage} of {totalPages}</span>
+              <button
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage((prev) => prev + 1)}
+              >
+                Next
+              </button>
+            </div>
+          </>
         )}
       </div>
     </div>

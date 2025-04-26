@@ -9,15 +9,25 @@
 .profile-header {
   font-size: 2rem;
   margin-bottom: 2rem;
+  margin-top: 3rem;
 }
 
 .profile-info {
+  /* align-items: flex-start; */
+
   background-color: #1a1a1a;
   padding: 1.5rem;
   border-radius: 12px;
   margin-bottom: 3rem;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
+
+
+.profile-info p {
+  text-align: left; 
+  margin: 0.5rem 0; 
+}
+
 
 .reports-section {
   margin-top: 2rem;
@@ -51,7 +61,7 @@
 }
 
 .download-button {
-  background-color: #ff4747;
+  background-color: #2b2b2b;
   color: white;
   border: none;
   padding: 0.7rem 1rem;
@@ -62,5 +72,33 @@
 }
 
 .download-button:hover {
-  background-color: #e63e3e;
+  background-color: #404040;
+}
+
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.pagination-controls button {
+  background-color: #444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: #666;
+}
+
+.pagination-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
